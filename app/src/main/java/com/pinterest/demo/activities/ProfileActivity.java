@@ -1,4 +1,4 @@
-package com.pinterest.demo;
+package com.pinterest.demo.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.image.downloader.FileType;
 import com.image.downloader.ImageDownloader;
+import com.pinterest.demo.R;
 import com.pinterest.demo.models.UserDetail;
 
 import butterknife.BindView;

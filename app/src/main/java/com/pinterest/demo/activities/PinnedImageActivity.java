@@ -1,4 +1,4 @@
-package com.pinterest.demo;
+package com.pinterest.demo.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pinterest.demo.Constants;
+import com.pinterest.demo.R;
 import com.pinterest.demo.Widgets.RecyclerTouchListener;
 import com.pinterest.demo.adapters.UserAdapter;
 import com.pinterest.demo.interfaces.InternetConnectionListener;
