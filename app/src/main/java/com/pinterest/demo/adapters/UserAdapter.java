@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.image.downloader.Constants;
+import com.image.downloader.FileType;
 import com.image.downloader.ImageDownloader;
 import com.pinterest.demo.R;
-import com.pinterest.demo.models.User;
 import com.pinterest.demo.models.UserDetail;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,27 +51,35 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private void setDetails(UserViewHolder holder, UserDetail user) {
         holder.Name.setText(user.getUser().getName());
         holder.UserName.setText(user.getUser().getUsername());
-//        Picasso.get().load(user.getUser().getProfileImage().getMedium()).into(holder.userThumb);
-//        Picasso.get().load(user.getUrls().getThumb()).into(holder.mediaImage);
+        holder.likesCount.setText(String.valueOf(user.getLikes()));
+        /*PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(Color.parseColor(user.getColor()),
+                PorterDuff.Mode.SRC_ATOP);
+        holder.imgLikes.setColorFilter(porterDuffColorFilter);*/
 
 
+        int cacheSize=1024*40;
         new ImageDownloader.Builder()
                 .setContext(context)
                 .setView(holder.userThumb)
-                .setFileType(Constants.FILE_TYPE_IMAGE)
-                .setSourceUrl(user.getUser().getProfileImage().getMedium())
+                .setFileType(FileType.FILE_TYPE_IMAGE)
+                .setSourceUrl(user.getUser().getProfileImage().getLarge())
+                .errorPlaceHolder(R.drawable.ic_user_placeholder)
+                .setAnimation(true)
+                .setCacheSize(cacheSize)
                 .build();
-
 
         new ImageDownloader.Builder()
                 .setContext(context)
                 .setView(holder.mediaImage)
-                .setFileType(Constants.FILE_TYPE_IMAGE)
-                .setSourceUrl(user.getUrls().getThumb())
+                .setFileType(FileType.FILE_TYPE_IMAGE)
+                .setSourceUrl(user.getUrls().getRegular())
+                .setAnimation(true)
+                .errorPlaceHolder(R.drawable.ic_placeholder)
+                .setCacheSize(cacheSize)
                 .build();
 
-
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -96,15 +102,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return mUserList.get(pos);
     }
 
- /*   public static class studentViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView txtStudent;
-
-        public studentViewHolder(View itemView) {
-            super(itemView);
-            txtStudent = itemView.findViewById(R.id.textView);
-        }
-    }*/
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_thumb)

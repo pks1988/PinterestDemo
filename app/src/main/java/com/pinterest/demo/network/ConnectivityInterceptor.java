@@ -29,12 +29,6 @@ public abstract class ConnectivityInterceptor implements Interceptor {
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        /*if(App.isInternetAvailable(mContext)){
-            isInternetAvailable();
-        }else {
-            onInternetUnavailable();
-        }*/
-
         if(!isInternetAvailable())
             onInternetUnavailable();
 

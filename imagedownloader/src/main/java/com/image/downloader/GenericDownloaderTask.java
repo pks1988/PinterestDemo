@@ -1,13 +1,9 @@
 package com.image.downloader;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 /**
  * Created by Pravesh Sharma on 06-09-2018.
@@ -17,8 +13,7 @@ public class GenericDownloaderTask<T> extends AsyncTask<String, Void, T> {
     private String TAG = this.getClass().getSimpleName();
     private String mFileType;
     private AsyncCallback callback;
-    ByteArrayOutputStream bytearrayoutputstream;
-    byte[] BYTE;
+    ImageView mView;
 
 
     public interface AsyncCallback<T> {
@@ -31,43 +26,42 @@ public class GenericDownloaderTask<T> extends AsyncTask<String, Void, T> {
         this.callback = callback;
     }
 
-    public GenericDownloaderTask(String mFileType) {
+    public GenericDownloaderTask(String mFileType, ImageView mView) {
         this.mFileType = mFileType;
+        this.mView = mView;
     }
 
     @Override
     protected T doInBackground(String... URL) {
         String data = URL[0];
-        T returnVal=null;
+        T returnVal = null;
+        Bitmap bitmap;
         try {
-            if (mFileType.equals(Constants.FILE_TYPE_IMAGE)) {
+            if (mFileType.equals(FileType.FILE_TYPE_IMAGE)) {
                 Log.v(TAG, "url download:" + data);
-                // Download Image from URL
-                InputStream input = new java.net.URL(data).openStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(input);
-              /*  bitmap.compress(Bitmap.CompressFormat.WEBP, 50, bytearrayoutputstream);
-                BYTE = bytearrayoutputstream.toByteArray();
-                Bitmap b= BitmapFactory.decodeByteArray(BYTE, 0, BYTE.length);*/
-//                memoryCache.addBitmapToMemoryCache(data,bitmap);
-                // Decode Bitmap
-//                callback.downloadCompleted(BitmapFactory.decodeStream(input));
+                bitmap = CompressBitmap.decodeSampledBitmapFromStream(data, mView.getWidth(), mView.getHeight());
                 MemoryCache.getInstance().addBitmapToMemoryCache(data, bitmap);
-                returnVal= (T) bitmap;
+                returnVal = (T) bitmap;
 
             } else {
-
+                //Code open to be changed for other kind of files that can be downloaded in future
             }
 
         } catch (Exception e) {
             Log.getStackTraceString(e);
-            callback.downloadFailed();
+            Log.v(TAG, "image load failed");
         }
         return returnVal;
-        }
+    }
 
     @Override
     protected void onPostExecute(T t) {
-        callback.downloadCompleted(t);
+        if (t == null)
+            callback.downloadFailed();
+        else
+            callback.downloadCompleted(t);
 
     }
+
+
 }

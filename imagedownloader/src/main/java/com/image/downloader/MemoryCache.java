@@ -29,7 +29,9 @@ public class MemoryCache {
             if (memoryRequested > (maxMemoryAvailable / 4)) {
                 this.memoryRequested = maxMemoryAvailable / 4;
             } else if (memoryRequested == 0) {
-                this.memoryRequested = maxMemoryAvailable / 8;
+                this.memoryRequested = maxMemoryAvailable / 4;
+            }else{
+                this.memoryRequested=memoryRequested;
             }
         }
 
@@ -41,7 +43,7 @@ public class MemoryCache {
         maxMemoryAvailable = (int) (Runtime.getRuntime().maxMemory() / 1024);
     }
 
-    public void createMemoryCache() {
+    private void createMemoryCache() {
 
         if (mMemoryCache == null) {
             mMemoryCache = new LruCache<String, Bitmap>(memoryRequested) {
@@ -54,13 +56,13 @@ public class MemoryCache {
     }
 
 
-    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+    void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);
         }
     }
 
-    public Bitmap getBitmapFromMemCache(String key) {
+    Bitmap getBitmapFromMemCache(String key) {
         return mMemoryCache.get(key);
     }
 }

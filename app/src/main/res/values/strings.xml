@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pinterest Demo</string>
+    <string name="retry">Retry</string>
+    <string name="network_issue">Unable to connect to the server! retry again</string>
 </resources>

@@ -1,15 +1,16 @@
 
 package com.pinterest.demo.models;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserDetail implements Parcelable
-{
+public class UserDetail implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -43,7 +44,7 @@ public class UserDetail implements Parcelable
     private Urls urls;
     @SerializedName("categories")
     @Expose
-    private List<Category> categories = null;
+    private List<Category> categories = new ArrayList<>();
     @SerializedName("links")
     @Expose
     private Links links;
@@ -51,7 +52,7 @@ public class UserDetail implements Parcelable
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public UserDetail createFromParcel(Parcel in) {
             return new UserDetail(in);
@@ -61,8 +62,7 @@ public class UserDetail implements Parcelable
             return (new UserDetail[size]);
         }
 
-    }
-    ;
+    };
 
     protected UserDetail(Parcel in) {
         this.id = ((String) in.readValue((String.class.getClassLoader())));
@@ -194,7 +194,7 @@ public class UserDetail implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }
